@@ -8,7 +8,7 @@ Open `NRL_Hyperdrive.code-workspace` in VS Code to work on both firmware folders
 
 | OpMode | Controls and behavior |
 |--------|-----------------------|
-| `HyperdriveTeleOp` | Left stick Y drives forward/reverse; right stick X steers. Motor 1 drives the left wheels and Motor 2 drives the right wheels (mirrored). Acceleration is ramped, and stale controller input stops the drive. |
+| `HyperdriveTeleOp` | Left stick Y drives forward/reverse; right stick X steers. Motor 1 drives the left wheels and Motor 2 drives the right wheels (mirrored). Speed is capped at 30%, acceleration is ramped, and stale controller input stops the drive. |
 | `ServoCalibration` | Calibrates one servo per run: X selects arm S2/J19; A selects gripper S3/J17. D-pad up/down changes the trial angle by 1 degree per tap. Hold LB + RB alone for one second to enable. Y detaches and latches until restart; LT, link loss, and stopping also detach. |
 
 Servo calibration starts with no servo output. Its default 90-degree trial angle is
