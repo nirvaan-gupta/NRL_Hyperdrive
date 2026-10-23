@@ -11,7 +11,7 @@
 namespace {
 constexpr float kTrialAngle = 90.0f;
 constexpr float kArmMinAngle = 20.0f;
-constexpr float kArmMaxAngle = 160.0f;
+constexpr float kArmMaxAngle = 180.0f;
 constexpr float kGripperMinAngle = 60.0f;
 constexpr float kGripperMaxAngle = 120.0f;
 constexpr float kRateDegPerSec = 30.0f;
