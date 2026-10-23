@@ -42,7 +42,7 @@ public:
         }
 
         // This controller reports negative leftY when pushed forward.
-        drive.drive(-gamepad1.leftY(), gamepad1.rightX());
+        drive.drive(-gamepad1.leftY(), -gamepad1.rightX());
 
         const bool armSelect = gamepad1.pressed(BTN_X);
         const bool gripperSelect = gamepad1.pressed(BTN_A);
@@ -146,7 +146,7 @@ private:
         _lastTelemetry = now;
         telemetry.addData("drive", _ready ? "READY" : "MOTOR INIT FAILED");
         telemetry.addData("forward", -gamepad1.leftY());
-        telemetry.addData("turn", gamepad1.rightX());
+        telemetry.addData("turn", -gamepad1.rightX());
         telemetry.addData("speed", "FULL RANGE");
         telemetry.addData("servos", _latched ? _stopReason :
                           (_enabled ? "ENABLED; X/A + UP/DOWN" :

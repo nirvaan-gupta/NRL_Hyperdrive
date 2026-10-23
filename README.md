@@ -8,8 +8,8 @@ Open `NRL_Hyperdrive.code-workspace` in VS Code to work on both firmware folders
 
 | OpMode | Controls and behavior |
 |--------|-----------------------|
-| `HyperdriveTeleOp` | Push left stick forward/back to drive; right stick X steers. Hold **X + D-pad up/down** to move the arm, or **A + D-pad up/down** to move the gripper, including while driving. Hold **LB + RB** alone for one second to enable both servos. Uses full drive range; stale controller input stops driving and detaches the servos. |
-| `ServoCalibration` | Calibrates one servo per run: X selects arm S2/J19; A selects gripper S3/J17. D-pad up/down changes the trial angle by 1 degree per tap. Hold LB + RB alone for one second to enable. Y detaches and latches until restart; LT, link loss, and stopping also detach. Test one servo at a time; see the setup steps below. |
+| `HyperdriveTeleOp` | Push left stick forward/back to drive; push right stick left/right to turn. Hold **X + D-pad up/down** to move the arm, or **A + D-pad up/down** to move the gripper, including while driving. Hold **LB + RB** alone for one second to enable both servos. Uses full drive range; stale controller input stops driving and detaches the servos. |
+| `ServoCalibration` | Tests one servo per run: hold X to select arm S2/J19 or A to select gripper S3/J17. Hold LB + RB alone for one second to enable. Then hold D-pad up/down to move continuously at 30 degrees/second. Initial test range is 60–120°. Y detaches and latches until restart; LT, link loss, and stopping also detach. |
 
 Both modes start with no servo output. Their default 90-degree starting angle is
 unverified, and enabling can cause a large movement. Support/unload the mechanism
@@ -31,13 +31,12 @@ Mac by USB only when you need to flash its controller firmware.
 
 In the controller's OpMode menu, choose **ServoCalibration**. Test one servo at
 a time. Support the mechanism and keep fingers clear. The first enable commands
-the unverified 90-degree trial angle immediately; safest first test is with the
-servo horn or mechanism linkage disconnected. Select the arm with **X** or the
-gripper with **A**, then release the button. Hold **LB + RB** together for one
-second to enable that servo. Once enabled, each D-pad up/down tap changes its
-command by 1 degree. **Y** detaches; restart the OpMode to test the other servo.
-The driver accepts 0–180 degrees, but those are not calibrated safe mechanical
-limits. Find each mechanism's safe endpoints before using full travel.
+the 90-degree trial angle; safest first test is with the servo horn or mechanism
+linkage disconnected. Hold **X** to select arm or **A** to select gripper, then
+hold **LB + RB** together for one second to enable. Hold D-pad up/down to move
+continuously in the 60–120 degree test range. **Y** detaches; restart the OpMode
+to choose the other servo. Find each mechanism's safe endpoints before widening
+the limits in the firmware.
 
 ### One-run combined TeleOp test / match operation
 
@@ -55,7 +54,8 @@ limits. Find each mechanism's safe endpoints before using full travel.
    buzzes heavily, or draws the arm into a hard stop.
 4. Check drive direction with the wheels lifted: push the left stick forward
    and confirm both sides turn the robot-forward direction; pull back to confirm
-   reverse; push the right stick left/right to check turning. Use small stick
+   reverse; push the right stick left/right to check turning. Right stick left
+   should turn the robot left, and right should turn it right. Use small stick
    movements first. If a side spins opposite the other, stop and inspect motor
    wiring and the mirrored right-motor setting before placing it on the floor.
 5. Still in the same run, hold **X + D-pad down** to lower the arm and **X +
