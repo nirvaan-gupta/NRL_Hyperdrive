@@ -10,8 +10,10 @@
 
 namespace {
 constexpr float kTrialAngle = 90.0f;
-constexpr float kMinAngle = 60.0f;
-constexpr float kMaxAngle = 120.0f;
+constexpr float kArmMinAngle = 20.0f;
+constexpr float kArmMaxAngle = 160.0f;
+constexpr float kGripperMinAngle = 60.0f;
+constexpr float kGripperMaxAngle = 120.0f;
 constexpr float kRateDegPerSec = 30.0f;
 constexpr uint32_t kEnableHoldMs = 1000;
 constexpr uint32_t kTelemetryMs = 200;
@@ -73,9 +75,11 @@ public:
         } else if (_enabled && up != down) {
             // Move continuously while held; the platform loop runs at 100 Hz.
             const float dir = up ? 1.0f : -1.0f;
+            const float minAngle = _selected == 0 ? kArmMinAngle : kGripperMinAngle;
+            const float maxAngle = _selected == 0 ? kArmMaxAngle : kGripperMaxAngle;
             const float next = _selectedDevice().getPosition() + dir * kRateDegPerSec * 0.01f;
-            _selectedDevice().setPosition(next < kMinAngle ? kMinAngle :
-                                          (next > kMaxAngle ? kMaxAngle : next));
+            _selectedDevice().setPosition(next < minAngle ? minAngle :
+                                          (next > maxAngle ? maxAngle : next));
         } else {
             _holdingEnable = false;
         }
@@ -103,8 +107,8 @@ private:
         CalibrationServo& selected = _selected == 0 ? _arm : _gripper;
         HexaServoConfig config{};
         config.signalPin = selected.pin;
-        config.minAngle = kMinAngle;
-        config.maxAngle = kMaxAngle;
+        config.minAngle = _selected == 0 ? kArmMinAngle : kGripperMinAngle;
+        config.maxAngle = _selected == 0 ? kArmMaxAngle : kGripperMaxAngle;
         config.startAngle = kTrialAngle;
         config.settleMs = 0;
         selected.device.emplace(config);
@@ -136,7 +140,7 @@ private:
                            (_holdingEnable ? "HOLD LB+RB" : "TRIAL ONLY")));
         telemetry.addData("angle", selected.device && selected.device->isReady() ?
                           selected.device->getPosition() : kTrialAngle);
-        telemetry.addData("limits", "60-120 deg test range");
+        telemetry.addData("limits", _selected == 0 ? "arm 20-160 deg" : "grip 60-120 deg");
         telemetry.addData("rate", "30 deg/sec while held");
         telemetry.addData("hint", _latched ? "RESTART OPMODE" :
                           (_enabled ? "UP/DOWN; Y:OFF" : "X:ARM A:GRIP; LB+RB 1s:ON"));

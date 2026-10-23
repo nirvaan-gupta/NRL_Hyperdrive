@@ -9,8 +9,10 @@ namespace {
 // Servo output is enabled only after a deliberate 1 s LB+RB hold.
 // These are initial test limits, not guaranteed mechanical endpoints. Adjust
 // after testing the mounted linkage with the robot supported and unloaded.
-constexpr float kArmMinDeg = 60.0f;
-constexpr float kArmMaxDeg = 120.0f;
+// Extended arm command range. The physical lower endpoint still needs to be
+// confirmed on the assembled robot; stop if the linkage binds or the servo strains.
+constexpr float kArmMinDeg = 20.0f;
+constexpr float kArmMaxDeg = 160.0f;
 constexpr float kGripperMinDeg = 60.0f;
 constexpr float kGripperMaxDeg = 120.0f;
 constexpr float kInitialArmDeg = 90.0f;
