@@ -8,10 +8,10 @@ Open `NRL_Hyperdrive.code-workspace` in VS Code to work on both firmware folders
 
 | OpMode | Controls and behavior |
 |--------|-----------------------|
-| `HyperdriveTeleOp` | Left stick Y drives forward/reverse; right stick X steers. Motor 1 drives the left wheels and Motor 2 drives the right wheels (mirrored). Uses the full drive range with a smooth acceleration ramp; stale controller input stops the drive. |
+| `HyperdriveTeleOp` | Push left stick forward/back to drive; right stick X steers. Hold **X + D-pad up/down** to move the arm, or **A + D-pad up/down** to move the gripper, including while driving. Hold **LB + RB** alone for one second to enable both servos. Uses full drive range; stale controller input stops driving and detaches the servos. |
 | `ServoCalibration` | Calibrates one servo per run: X selects arm S2/J19; A selects gripper S3/J17. D-pad up/down changes the trial angle by 1 degree per tap. Hold LB + RB alone for one second to enable. Y detaches and latches until restart; LT, link loss, and stopping also detach. Test one servo at a time; see the setup steps below. |
 
-Servo calibration starts with no servo output. Its default 90-degree trial angle is
+Both modes start with no servo output. Their default 90-degree starting angle is
 unverified, and enabling can cause a large movement. Support/unload the mechanism
 before enabling; detaching removes holding torque. Telemetry reports commanded
 angles, not measured positions. Restart the OpMode to select the other servo.
@@ -38,6 +38,44 @@ second to enable that servo. Once enabled, each D-pad up/down tap changes its
 command by 1 degree. **Y** detaches; restart the OpMode to test the other servo.
 The driver accepts 0–180 degrees, but those are not calibrated safe mechanical
 limits. Find each mechanism's safe endpoints before using full travel.
+
+### One-run combined TeleOp test / match operation
+
+1. Secure the robot on a stand with its drive wheels clear of the floor. Remove
+   any game piece and keep hands clear of the arm and gripper. Inspect the linkage
+   for free movement and verify servo voltage compatibility before connecting power.
+2. Connect the robot Hub to the Mac by USB. In VS Code open the workspace, build
+   the `robot` PlatformIO environment, then upload it (`pio run --project-dir
+   RobotFirmware -e robot -t upload`). Disconnect USB after upload; run the robot
+   from its battery and pair the controller on channel 1.
+3. In the controller menu select **HyperdriveTeleOp** and press START. Confirm
+   the telemetry reports full-range drive and servos disabled. Hold **LB + RB**
+   together for one second to enable the arm and gripper at their 90-degree
+   starting commands. Watch both linkages; stop immediately if either binds,
+   buzzes heavily, or draws the arm into a hard stop.
+4. Check drive direction with the wheels lifted: push the left stick forward
+   and confirm both sides turn the robot-forward direction; pull back to confirm
+   reverse; push the right stick left/right to check turning. Use small stick
+   movements first. If a side spins opposite the other, stop and inspect motor
+   wiring and the mirrored right-motor setting before placing it on the floor.
+5. Still in the same run, hold **X + D-pad down** to lower the arm and **X +
+   D-pad up** to raise it. Hold **A + D-pad up** to open the gripper and **A +
+   D-pad down** to close it. The left stick can drive and the right stick steer
+   while either servo command is held. Release the buttons to stop at the current
+   commanded position. The initial software limits are 60–120 degrees; expand
+   them in `HyperdriveTeleOp.cpp` only after carefully finding safe, unobstructed
+   endpoints on the mounted mechanism.
+6. For a floor test, clear a large area, keep people outside the robot's path,
+   and test at walking speed before testing sharper turns or carrying a sample.
+   Stop the OpMode with the controller's normal exit/STOP flow. Y or LT detaches
+   and latches the servos off; restarting the OpMode is required to re-enable.
+
+For competition, upload this same firmware before inspection, select
+**HyperdriveTeleOp** for the driver-controlled period, enable the servos after
+the robot is placed in the field-safe start pose, and use the same button holds
+to drive, position the arm, and open/close the gripper. Practice the button
+combinations before a match; confirm the team's event rules for allowed control
+and match timing.
 
 ## SDK reference
 
