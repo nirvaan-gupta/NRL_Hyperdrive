@@ -2,7 +2,7 @@
 #include <optional>
 
 // Calibrate one channel at a time without commanding drive motors.
-// X selects S2/J19 (arm); A selects S3/J17 (gripper).
+// X selects S1/J18 (arm); A selects S3/J17 (gripper).
 // Hold LB+RB alone for 1 second to enable at 90 degrees. Then hold D-pad
 // UP/DOWN to move continuously at a slow test rate. Y/LT/link loss detaches.
 // The initial angle and 60..120 degree range are cautious test settings, not
@@ -90,7 +90,7 @@ public:
     void stop() override { detachAndLatch("STOPPED"); }
 
 private:
-    CalibrationServo _arm{SERVO_2, "ARM S2 / J19"};
+    CalibrationServo _arm{SERVO_1, "ARM S1 / J18"};
     CalibrationServo _gripper{SERVO_3, "GRIPPER S3 / J17"};
     uint8_t _selected = 0;
     bool _enabled = false;

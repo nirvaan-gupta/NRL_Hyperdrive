@@ -100,7 +100,7 @@ public:
     }
 
 private:
-    HexaServo _arm{{.signalPin = SERVO_2, .minAngle = kArmMinDeg,
+    HexaServo _arm{{.signalPin = SERVO_1, .minAngle = kArmMinDeg,
                     .maxAngle = kArmMaxDeg, .startAngle = kInitialArmDeg,
                     .settleMs = 0}};
     HexaServo _gripper{{.signalPin = SERVO_3, .minAngle = kGripperMinDeg,

@@ -9,7 +9,7 @@ Open `NRL_Hyperdrive.code-workspace` in VS Code to work on both firmware folders
 | OpMode | Controls and behavior |
 |--------|-----------------------|
 | `HyperdriveTeleOp` | Push left stick forward/back to drive; push right stick left/right to turn. Hold **X + D-pad up/down** to move the arm, or **A + D-pad up/down** to move the gripper, including while driving. Hold **LB + RB** alone for one second to enable both servos. Uses full drive range; stale controller input stops driving and detaches the servos. |
-| `ServoCalibration` | Tests one servo per run: hold X to select arm S2/J19 or A to select gripper S3/J17. Hold LB + RB alone for one second to enable. Then hold D-pad up/down to move continuously at 30 degrees/second. Initial test range is 60–120°. Y detaches and latches until restart; LT, link loss, and stopping also detach. |
+| `ServoCalibration` | Tests one servo per run: hold X to select arm S1/J18 or A to select gripper S3/J17. Hold LB + RB alone for one second to enable. Then hold D-pad up/down to move continuously at 30 degrees/second. Arm range is 20–180° and gripper range is 60–120°. Y detaches and latches until restart; LT, link loss, and stopping also detach. |
 
 Both modes start with no servo output. Their default 90-degree starting angle is
 unverified, and enabling can cause a large movement. Support/unload the mechanism
@@ -19,7 +19,7 @@ angles, not measured positions. Restart the OpMode to select the other servo.
 ### Connect and test the arm and gripper
 
 You do **not** connect either servo to the Mac. With the robot powered off, connect
-the arm servo to **J19 / S2** and the gripper servo to **J17 / S3** on the robot
+the arm servo to **J18 / S1** and the gripper servo to **J17 / S3** on the robot
 Hub. Check the servo voltage rating against the Hub's servo rail before powering
 it: the rail is shared with the robot battery and has no separate regulator.
 
@@ -34,7 +34,7 @@ a time. Support the mechanism and keep fingers clear. The first enable commands
 the 90-degree trial angle; safest first test is with the servo horn or mechanism
 linkage disconnected. Hold **X** to select arm or **A** to select gripper, then
 hold **LB + RB** together for one second to enable. Hold D-pad up/down to move
-continuously in the 60–120 degree test range. **Y** detaches; restart the OpMode
+continuously (arm 20–180 degrees; gripper 60–120 degrees). **Y** detaches; restart the OpMode
 to choose the other servo. Find each mechanism's safe endpoints before widening
 the limits in the firmware.
 
@@ -62,9 +62,8 @@ the limits in the firmware.
    D-pad up** to raise it. Hold **A + D-pad up** to open the gripper and **A +
    D-pad down** to close it. The left stick can drive and the right stick steer
    while either servo command is held. Release the buttons to stop at the current
-   commanded position. The initial software limits are 60–120 degrees; expand
-   them in `HyperdriveTeleOp.cpp` only after carefully finding safe, unobstructed
-   endpoints on the mounted mechanism.
+   commanded position. The arm command range is 20–180 degrees; the gripper
+   range is 60–120 degrees. Do not command beyond the servo's nominal range.
 6. For a floor test, clear a large area, keep people outside the robot's path,
    and test at walking speed before testing sharper turns or carrying a sample.
    Stop the OpMode with the controller's normal exit/STOP flow. Y or LT detaches
