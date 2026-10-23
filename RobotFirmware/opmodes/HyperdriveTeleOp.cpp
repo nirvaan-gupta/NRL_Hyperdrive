@@ -10,7 +10,6 @@ class HyperdriveTeleOp : public NRLOpMode {
 public:
     void init() override {
         _ready = leftMotor.begin() && rightMotor.begin();
-        drive.setScale(0.30f);       // Conservative initial speed cap.
         drive.setRampRate(0.05f);   // Smooth acceleration and reversals.
         drive.stop();
     }
@@ -27,7 +26,7 @@ public:
         telemetry.addData("drive", "READY");
         telemetry.addData("forward", gamepad1.leftY());
         telemetry.addData("turn", gamepad1.rightX());
-        telemetry.addData("speed cap", "30%");
+        telemetry.addData("speed", "FULL RANGE");
     }
 
     void stop() override {

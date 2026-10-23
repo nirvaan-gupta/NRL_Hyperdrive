@@ -8,13 +8,36 @@ Open `NRL_Hyperdrive.code-workspace` in VS Code to work on both firmware folders
 
 | OpMode | Controls and behavior |
 |--------|-----------------------|
-| `HyperdriveTeleOp` | Left stick Y drives forward/reverse; right stick X steers. Motor 1 drives the left wheels and Motor 2 drives the right wheels (mirrored). Speed is capped at 30%, acceleration is ramped, and stale controller input stops the drive. |
-| `ServoCalibration` | Calibrates one servo per run: X selects arm S2/J19; A selects gripper S3/J17. D-pad up/down changes the trial angle by 1 degree per tap. Hold LB + RB alone for one second to enable. Y detaches and latches until restart; LT, link loss, and stopping also detach. |
+| `HyperdriveTeleOp` | Left stick Y drives forward/reverse; right stick X steers. Motor 1 drives the left wheels and Motor 2 drives the right wheels (mirrored). Uses the full drive range with a smooth acceleration ramp; stale controller input stops the drive. |
+| `ServoCalibration` | Calibrates one servo per run: X selects arm S2/J19; A selects gripper S3/J17. D-pad up/down changes the trial angle by 1 degree per tap. Hold LB + RB alone for one second to enable. Y detaches and latches until restart; LT, link loss, and stopping also detach. Test one servo at a time; see the setup steps below. |
 
 Servo calibration starts with no servo output. Its default 90-degree trial angle is
 unverified, and enabling can cause a large movement. Support/unload the mechanism
 before enabling; detaching removes holding torque. Telemetry reports commanded
 angles, not measured positions. Restart the OpMode to select the other servo.
+
+### Connect and test the arm and gripper
+
+You do **not** connect either servo to the Mac. With the robot powered off, connect
+the arm servo to **J19 / S2** and the gripper servo to **J17 / S3** on the robot
+Hub. Check the servo voltage rating against the Hub's servo rail before powering
+it: the rail is shared with the robot battery and has no separate regulator.
+
+The Mac is only for firmware setup: connect the robot Hub by USB, open
+`NRL_Hyperdrive.code-workspace` in VS Code, and upload the robot firmware with
+PlatformIO. Then power the robot from its normal battery and use the handheld
+controller wirelessly (ESP-NOW channel 1). Connect the handheld controller to the
+Mac by USB only when you need to flash its controller firmware.
+
+In the controller's OpMode menu, choose **ServoCalibration**. Test one servo at
+a time. Support the mechanism and keep fingers clear. The first enable commands
+the unverified 90-degree trial angle immediately; safest first test is with the
+servo horn or mechanism linkage disconnected. Select the arm with **X** or the
+gripper with **A**, then release the button. Hold **LB + RB** together for one
+second to enable that servo. Once enabled, each D-pad up/down tap changes its
+command by 1 degree. **Y** detaches; restart the OpMode to test the other servo.
+The driver accepts 0–180 degrees, but those are not calibrated safe mechanical
+limits. Find each mechanism's safe endpoints before using full travel.
 
 ## SDK reference
 
